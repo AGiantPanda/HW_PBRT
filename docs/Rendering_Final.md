@@ -11,7 +11,7 @@ Rendering Final
 
 ### Curve Shape
 Curve Shape用cubic bezier splines來描述，每一根curve由四個控制點來定義，p0，p1，p2和p3。Curve會通過四個控制點的起點和終點，中間的點則由下面這個算式計算出：    
-<img src="./img/bezier curve.png" alt="bezier curve">  
+<img src="./img/bezier_curve_func.png" alt="bezier curve">  
 <img src="./img/curve.png" alt="curve" height="250" width="400">  
 
 然後，讓curve上的點沿著與curve垂直的兩個方向分別偏移width的寬度，就可以得到這個curve的表面。  
