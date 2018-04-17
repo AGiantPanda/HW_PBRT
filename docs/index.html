@@ -747,10 +747,10 @@ pre {
 <h3>
 <a id="user-content-curve-shape" class="anchor" href="#curve-shape" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Curve Shape</h3>
 <p>Curve Shape用cubic bezier splines來描述，每一根curve由四個控制點來定義，p0，p1，p2和p3。Curve會通過四個控制點的起點和終點，中間的點則由下面這個算式計算出：<br>
-<a href="///E://Entertainment/Documents/GitHub/HW_PBRT/docs/img/bezier%20curve.png" target="_blank"><img src="///E://Entertainment/Documents/GitHub/HW_PBRT/docs/img/bezier%20curve.png" alt="bezier curve" style="max-width:100%;"></a><br>
-<a href="///E://Entertainment/Documents/GitHub/HW_PBRT/docs/img/curve.png" target="_blank"><img src="///E://Entertainment/Documents/GitHub/HW_PBRT/docs/img/curve.png" alt="curve" height="250" width="400" style="max-width:100%;"></a></p>
+<a href="./img/bezier%20curve.png" target="_blank"><img src="./img/bezier%20curve.png" alt="bezier curve" style="max-width:100%;"></a><br>
+<a href="./img/curve.png" target="_blank"><img src="./img/curve.png" alt="curve" height="250" width="400" style="max-width:100%;"></a></p>
 <p>然後，讓curve上的點沿著與curve垂直的兩個方向分別偏移width的寬度，就可以得到這個curve的表面。<br>
-<a href="///E://Entertainment/Documents/GitHub/HW_PBRT/docs/img/curve%20surface.png" target="_blank"><img src="///E://Entertainment/Documents/GitHub/HW_PBRT/docs/img/curve%20surface.png" alt="curve surface" height="150" width="400" style="max-width:100%;"></a></p>
+<a href="./img/curve%20surface.png" target="_blank"><img src="./img/curve%20surface.png" alt="curve surface" height="150" width="400" style="max-width:100%;"></a></p>
 <p>Curve有三種類型，分別是：</p>
 <ol>
 <li>Flat: 這種類型的curve的表面總是和與其相交的射線垂直，通常可以用來描述比較遠的毛髮；</li>
@@ -763,7 +763,7 @@ pre {
 <p>由於Curve可能會很扭曲，所以Curve的Bounding Box可能會非常大。為了讓它的Bounding Box更細緻地包住Curve，在計算時我們將每個Curve再細分成不同的segment，每個segment會包括Curve上大概u長度的範圍。</p>
 <p>因為有每個Bezier Curve都會落在自己的控制點所組成的Convex Hull之內這個特性，所以Curve的Bounding Box可以根據這個特性計算得出。我們首先計算出沿著curve中線的2D的Bounding Box，再根據Curve的寬度，把它擴展成3D的Bounding Box。</p>
 <p>但是由於CurveCommon結構中記錄的是整條Curve的控制點，所以具體到每個segment的時候需要重新計算segment的四個控制點。這可以通過Blossoming的方法計算得出，具體得到的一個segment的控制點如下圖所示：<br>
-<a href="///E://Entertainment/Documents/GitHub/HW_PBRT/docs/img/curve%20segment.png" target="_blank"><img src="///E://Entertainment/Documents/GitHub/HW_PBRT/docs/img/curve%20segment.png" alt="curve segment" height="150" width="400" style="max-width:100%;"></a></p>
+<a href="./img/curve%20segment.png" target="_blank"><img src="./img/curve%20segment.png" alt="curve segment" height="150" width="400" style="max-width:100%;"></a></p>
 <h3>
 <a id="user-content-intersect" class="anchor" href="#intersect" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Intersect</h3>
 <p>因為Curve可能很長，而且一開始檢測的Curve的Bounding Box可能有很多冗餘的空間。所以使用一種遞歸的方式檢測Curve和Ray是否有交點。當進行Intersect的檢測時，如果Ray和Curve segment的Bounding Box沒有交點，則丟棄這個segment；如果有交點，則將Curve分成左右兩個segment繼續做檢測。</p>
@@ -785,17 +785,17 @@ recursiveIntersect(){
 <h4>
 <a id="user-content-part-ii" class="anchor" href="#part-ii" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>PART II</h4>
 <p>計算射線和Curve segment是否可能會相交時，因為Curve已經被轉換到射線空間，而+z軸就是射線的方向。所以可以根據Bounding Box的(x, y)坐標來快速地判斷它與Ray是否可能有交點，如下圖所示：<br>
-<a href="///E://Entertainment/Documents/GitHub/HW_PBRT/docs/img/bounding%20box.png" target="_blank"><img src="///E://Entertainment/Documents/GitHub/HW_PBRT/docs/img/bounding%20box.png" alt="bounding box" style="max-width:100%;"></a></p>
+<a href="./img/bounding%20box.png" target="_blank"><img src="./img/bounding%20box.png" alt="bounding box" style="max-width:100%;"></a></p>
 <h4>
 <a id="user-content-part-iii" class="anchor" href="#part-iii" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>PART III</h4>
 <p>當計算射線是否和Curve的某個segment的表面有相交的時候，我們首先得計算出segment的邊緣線，就是和segment的起點和終點垂直的線，這樣才能判斷交點是否落在這個segment之內。計算這條兩條邊緣線各自需要兩個點，第一個點可以用控制點，第二個點則需要計算和曲線垂直的向量，當做控制點偏移的向量，如下圖所示：<br>
-<a href="///E://Entertainment/Documents/GitHub/HW_PBRT/docs/img/edge.png" target="_blank"><img src="///E://Entertainment/Documents/GitHub/HW_PBRT/docs/img/edge.png" alt="edge" style="max-width:100%;"></a></p>
+<a href="./img/edge.png" target="_blank"><img src="./img/edge.png" alt="edge" style="max-width:100%;"></a></p>
 <p>然後，我們需要計算curve segment上離(0, 0)點最近的點的u值。如果這個u值不超過curve的width/2的話，那麼射線和Curve的表面有交點。為了更有效地計算這個u值，我們用如下圖中虛線段的linear segment來做近似。因為curve已經被細分過多次，所以curve本身和linear segment的誤差不會太大。<br>
-<a href="///E://Entertainment/Documents/GitHub/HW_PBRT/docs/img/line%20segment.png" target="_blank"><img src="///E://Entertainment/Documents/GitHub/HW_PBRT/docs/img/line%20segment.png" alt="line segment" style="max-width:100%;"></a></p>
+<a href="./img/line%20segment.png" target="_blank"><img src="./img/line%20segment.png" alt="line segment" style="max-width:100%;"></a></p>
 <p>我們通過一個參數w，沿著起點p0到終點p3來近似出這條line segment，線上位於p0的點的w = 0，位於p3的點w = 1。而Curve segment上的點p和linear segment上對應的點p’的連線應該與p0到p3的連線垂直。<br>
-<a href="///E://Entertainment/Documents/GitHub/HW_PBRT/docs/img/w%20pic.png" target="_blank"><img src="///E://Entertainment/Documents/GitHub/HW_PBRT/docs/img/w%20pic.png" alt="w pic" height="300" width="400" style="max-width:100%;"></a></p>
+<a href="./img/w%20pic.png" target="_blank"><img src="./img/w%20pic.png" alt="w pic" height="300" width="400" style="max-width:100%;"></a></p>
 <p>通過上面的圖，可以算出p(0, 0)點在line segment上投影的w值：<br>
-<a href="///E://Entertainment/Documents/GitHub/HW_PBRT/docs/img/w%20algo.png" target="_blank"><img src="///E://Entertainment/Documents/GitHub/HW_PBRT/docs/img/w%20algo.png" alt="w algo" height="50" width="300" style="max-width:100%;"></a></p>
+<a href="./img/w%20algo.png" target="_blank"><img src="./img/w%20algo.png" alt="w algo" height="50" width="300" style="max-width:100%;"></a></p>
 <p>通過這個w值，可以計算出p點離line segment的最近距離。接下來，u的值就可以通過segment的u0和u1值和w值通過插值得到。同時curve上在u點處的寬度也可以計算得出。</p>
 <p>對于Ribbon類型的curve來說，curve的表面不總是面對這射線，所以u點處的法向量需要根據curve兩個端點的normal，用spherical linear interpolation插值得出，而curve某點的寬度則需要根據射線的方向和curve的方向做縮放，這樣才能產生ribbon的效果。</p>
 <p>最後，為了確定射線是否和curve的表面有交點。由於射線的起點在原點，所以在這裡我們只需要檢查curve的u點處坐標(x, y)到(0, 0)的距離，然後用判斷這個距離是否小於width/2即可。u點的坐標可以通過w值，用bezier function計算得出。</p>
@@ -816,7 +816,7 @@ recursiveIntersect(){
 <h3>
 <a id="user-content-物理組成" class="anchor" href="#%E7%89%A9%E7%90%86%E7%B5%84%E6%88%90" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>物理組成：</h3>
 <p>cuticle: 是頭髮的最外層，和空氣交界的部分，但表面不是平整的，而是有傾斜角度的鱗片狀所組成，如下圖。<br>
-<a href="///E://Entertainment/Documents/GitHub/HW_PBRT/docs/img/scales_for_hair.png" target="_blank"><img src="///E://Entertainment/Documents/GitHub/HW_PBRT/docs/img/scales_for_hair.png" alt="scales_for_hair" height="100" style="max-width:100%;"></a><br>
+<a href="./img/scales_for_hair.png" target="_blank"><img src="./img/scales_for_hair.png" alt="scales_for_hair" height="100" style="max-width:100%;"></a><br>
 cortex: 是頭髮最外層和中心的中介處，主要有吸收光線的色素。<br>
 Medulla：是頭髮最核心的部分。</p>
 <h3>
@@ -830,25 +830,25 @@ Medulla：是頭髮最核心的部分。</p>
 <a id="user-content-入射光夾角簡化計算" class="anchor" href="#%E5%85%A5%E5%B0%84%E5%85%89%E5%A4%BE%E8%A7%92%E7%B0%A1%E5%8C%96%E8%A8%88%E7%AE%97" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>入射光夾角簡化計算</h3>
 <p>關於計算light的入射角，paper中也提到了一個較簡易的方式，如下：</p>
 <p>假設入射方向為w，curve切面如下圖，畫一條與w垂直且通過圓心的線，h則是計算light的延長線與此線的交點與圓心的距離。而我們也可以用curve裡的參數v來得到h值，h = −1 + 2v 。而要得到light的入射角，我們便可以利用到h值，因為左圖其實就等於一個unit circle，於是γ 便可以用sin-1(h)得到。<br>
-<a href="///E://Entertainment/Documents/GitHub/HW_PBRT/docs/img/compute_incident_angle.png" target="_blank"><img src="///E://Entertainment/Documents/GitHub/HW_PBRT/docs/img/compute_incident_angle.png" alt="compute_incident_angle" height="220" style="max-width:100%;"></a></p>
+<a href="./img/compute_incident_angle.png" target="_blank"><img src="./img/compute_incident_angle.png" alt="compute_incident_angle" height="220" style="max-width:100%;"></a></p>
 <h3>
 <a id="user-content-bsdf" class="anchor" href="#bsdf" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>BSDF</h3>
 <p>計算頭髮的BSDF，將不同平面的scattering分開考慮會較容易，paper中提到可以將scattering拆成兩個平面來計算：一個是在longitudinal plane上的scattering，利用到curve的性質；另一個則是在azimuthal plane上的scattering。</p>
 <p>而在所有關於light-curve interaction的計算上，我們皆是使用極座標(θ, φ) 表示，其中，θ是longitudinal angle，指的是光的入射角和normal plane的夾角；而φ則是azimuthal angle ，是將ray投影到normal平面後，和y軸的夾角。<br>
 如下圖：<br>
-<a href="///E://Entertainment/Documents/GitHub/HW_PBRT/docs/img/long_az.png" target="_blank"><img src="///E://Entertainment/Documents/GitHub/HW_PBRT/docs/img/long_az.png" alt="long_az" height="120" style="max-width:100%;"></a></p>
+<a href="./img/long_az.png" target="_blank"><img src="./img/long_az.png" alt="long_az" height="120" style="max-width:100%;"></a></p>
 <h3>
 <a id="user-content-brief-intro-of-scattering" class="anchor" href="#brief-intro-of-scattering" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Brief Intro of Scattering</h3>
 <p>當光線打到頭髮，實際上會有很多次scattering，如下圖：<br>
-<a href="///E://Entertainment/Documents/GitHub/HW_PBRT/docs/img/RTTTRT.png" target="_blank"><img src="///E://Entertainment/Documents/GitHub/HW_PBRT/docs/img/RTTTRT.png" alt="RTTTRT" height="220" style="max-width:100%;"></a><br>
+<a href="./img/RTTTRT.png" target="_blank"><img src="./img/RTTTRT.png" alt="RTTTRT" height="220" style="max-width:100%;"></a><br>
 p = 0, 是第一次的反射;<br>
 p = 1，是折射後，再從另外一側折射出去;<br>
 p = 2，是折射後，在內部反射，再從同一側折射出去;</p>
 <p>計算每次scattering便是考慮兩個平面的scattering節果，以及在scattering過程中產生的attenuation，於是便可以用下面式子得到我們每一次scattering的BSDF:<br>
-<a href="///E://Entertainment/Documents/GitHub/HW_PBRT/docs/img/bsdf_element.png" target="_blank"><img src="///E://Entertainment/Documents/GitHub/HW_PBRT/docs/img/bsdf_element.png" alt="bsdf_element" height="60" style="max-width:100%;"></a><br>
+<a href="./img/bsdf_element.png" target="_blank"><img src="./img/bsdf_element.png" alt="bsdf_element" height="60" style="max-width:100%;"></a><br>
 其中，Mp指的是longitudinal scattering function，Ap是attenuation function，Np是azimuthal function，這幾個是我們最主要implement的部分。</p>
 <p>再將所有的scattering節果加總得到hair的BSDF如下<br>
-<a href="///E://Entertainment/Documents/GitHub/HW_PBRT/docs/img/bsdf.png" target="_blank"><img src="///E://Entertainment/Documents/GitHub/HW_PBRT/docs/img/bsdf.png" alt="bsdf" height="60" style="max-width:100%;"></a><br>
+<a href="./img/bsdf.png" target="_blank"><img src="./img/bsdf.png" alt="bsdf" height="60" style="max-width:100%;"></a><br>
 但在程式裡，為了簡化運算，我們只會計算前三個scattering的結果，其他更高次的scattering皆用一個constant替代。</p>
 <h3>
 <a id="user-content-implementation-of-bsdf-longitudinal-scattering-absorption-azimuthal-scattering" class="anchor" href="#implementation-of-bsdf-longitudinal-scattering-absorption-azimuthal-scattering" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Implementation of BSDF (Longitudinal scattering, Absorption, Azimuthal scattering)</h3>
@@ -881,26 +881,26 @@ alpha: 頭髮上每個小鱗片和cylinder的傾斜角度，用degree表示</p>
 <h4>
 <a id="user-content-part-i-1" class="anchor" href="#part-i-1" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>PART I</h4>
 <p>此處要考慮的是eta在longitudinal方向的貢獻，因此我們將eta進行修正，如下：<br>
-<a href="///E://Entertainment/Documents/GitHub/HW_PBRT/docs/img/etap.png" target="_blank"><img src="///E://Entertainment/Documents/GitHub/HW_PBRT/docs/img/etap.png" alt="etap" height="60" style="max-width:100%;"></a><br>
+<a href="./img/etap.png" target="_blank"><img src="./img/etap.png" alt="etap" height="60" style="max-width:100%;"></a><br>
 又因為h = sin γo，我們便可以利用Snell’s law去計算 γt = h/etap</p>
 <h4>
 <a id="user-content-part-ii-1" class="anchor" href="#part-ii-1" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>PART II</h4>
 <p>光線在頭髮中經過的路徑長計算方式如下圖，得la/2 = cos(rt)：<br>
-<a href="///E://Entertainment/Documents/GitHub/HW_PBRT/docs/img/length.png" target="_blank"><img src="///E://Entertainment/Documents/GitHub/HW_PBRT/docs/img/length.png" alt="cylinder" height="200" style="max-width:100%;"></a><br>
+<a href="./img/length.png" target="_blank"><img src="./img/length.png" alt="cylinder" height="200" style="max-width:100%;"></a><br>
 但在考慮光線是經過一個cylinder如下圖，最後得到的路徑長為 l = (2cos(γt))/cos(θt).<br>
-<a href="///E://Entertainment/Documents/GitHub/HW_PBRT/docs/img/cylinder_modified.png" target="_blank"><img src="///E://Entertainment/Documents/GitHub/HW_PBRT/docs/img/cylinder_modified.png" alt="cylinder" height="100" style="max-width:100%;"></a><br>
+<a href="./img/cylinder_modified.png" target="_blank"><img src="./img/cylinder_modified.png" alt="cylinder" height="100" style="max-width:100%;"></a><br>
 最後再根據Beer’s law，得到transmittance.</p>
 <h4>
 <a id="user-content-part-iii-1" class="anchor" href="#part-iii-1" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>PART III</h4>
 <p>主要是實作下面這個式子：<br>
-<a href="///E://Entertainment/Documents/GitHub/HW_PBRT/docs/img/Mp.png" target="_blank"><img src="///E://Entertainment/Documents/GitHub/HW_PBRT/docs/img/Mp.png" alt="longitude scattering" height="60" style="max-width:100%;"></a><br>
+<a href="./img/Mp.png" target="_blank"><img src="./img/Mp.png" alt="longitude scattering" height="60" style="max-width:100%;"></a><br>
 其中，v是之前HairBSDF constructor裡預先算好的roughness variance，I0則是modified Bessel function。</p>
 <h4>
 <a id="user-content-part-iv-1" class="anchor" href="#part-iv-1" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>PART IV</h4>
 <p>首先先算出入射、反射光在azimuthal方向的角度變化：<br>
-<a href="///E://Entertainment/Documents/GitHub/HW_PBRT/docs/img/Azitmuthal_phi.png" target="_blank"><img src="///E://Entertainment/Documents/GitHub/HW_PBRT/docs/img/Azitmuthal_phi.png" alt="azimuthal scattering" height="30" style="max-width:100%;"></a><br>
+<a href="./img/Azitmuthal_phi.png" target="_blank"><img src="./img/Azitmuthal_phi.png" alt="azimuthal scattering" height="30" style="max-width:100%;"></a><br>
 接下來，將φ做差分得到dφ，再利用trimmed logistic得到最後的Azimuthal scattering spectrum<br>
-<a href="///E://Entertainment/Documents/GitHub/HW_PBRT/docs/img/trimmed_log.png" target="_blank"><img src="///E://Entertainment/Documents/GitHub/HW_PBRT/docs/img/trimmed_log.png" alt="trimmed logistic" height="60" style="max-width:100%;"></a></p>
+<a href="./img/trimmed_log.png" target="_blank"><img src="./img/trimmed_log.png" alt="trimmed logistic" height="60" style="max-width:100%;"></a></p>
 <h3>
 <a id="user-content-sampling" class="anchor" href="#sampling" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Sampling</h3>
 <h4>
@@ -934,10 +934,10 @@ Shape "curve" "float width" [5.0] "string type" "cylinder" "point P" [
 <p>Result Image:</p>
 <table width="200" border="0">
 　<tr>
-　<td>flat:<a href="///E://Entertainment/Documents/GitHub/HW_PBRT/docs/img/flat_512.png" target="_blank"><img src="///E://Entertainment/Documents/GitHub/HW_PBRT/docs/img/flat_512.png" alt="flat_512" height="250" style="max-width:100%;"></a> </td>
-　<td>Cylinder:<a href="///E://Entertainment/Documents/GitHub/HW_PBRT/docs/img/cylinder_512.png" target="_blank"><img src="///E://Entertainment/Documents/GitHub/HW_PBRT/docs/img/cylinder_512.png" alt="cylinder_512" height="250" style="max-width:100%;"></a>
+　<td>flat:<a href="./img/flat_512.png" target="_blank"><img src="./img/flat_512.png" alt="flat_512" height="250" style="max-width:100%;"></a> </td>
+　<td>Cylinder:<a href="./img/cylinder_512.png" target="_blank"><img src="./img/cylinder_512.png" alt="cylinder_512" height="250" style="max-width:100%;"></a>
 </td>
-  <td>Ribbon:<a href="///E://Entertainment/Documents/GitHub/HW_PBRT/docs/img/ribbon_512.png" target="_blank"><img src="///E://Entertainment/Documents/GitHub/HW_PBRT/docs/img/ribbon_512.png" alt="ribbon_512" height="250" style="max-width:100%;"></a>
+  <td>Ribbon:<a href="./img/ribbon_512.png" target="_blank"><img src="./img/ribbon_512.png" alt="ribbon_512" height="250" style="max-width:100%;"></a>
 </td>
 　</tr>
 </table>
@@ -951,20 +951,20 @@ Shape "curve" "string type" [ "cylinder" ] "point P" [ -0.420546 15.5172 -1.0681
 Straight Hair:</p>
 <table width="200" border="0">
 　<tr>
-　<td>White Hair:<a href="///E://Entertainment/Documents/GitHub/HW_PBRT/docs/img/white_hair.png" target="_blank"><img src="///E://Entertainment/Documents/GitHub/HW_PBRT/docs/img/white_hair.png" alt="white_hair" height="250" style="max-width:100%;"></a> </td>
-　<td>Yellow Hair:<a href="///E://Entertainment/Documents/GitHub/HW_PBRT/docs/img/yellow_hair.png" target="_blank"><img src="///E://Entertainment/Documents/GitHub/HW_PBRT/docs/img/yellow_hair.png" alt="yellow_hair" height="250" style="max-width:100%;"></a>
+　<td>White Hair:<a href="./img/white_hair.png" target="_blank"><img src="./img/white_hair.png" alt="white_hair" height="250" style="max-width:100%;"></a> </td>
+　<td>Yellow Hair:<a href="./img/yellow_hair.png" target="_blank"><img src="./img/yellow_hair.png" alt="yellow_hair" height="250" style="max-width:100%;"></a>
 </td>
-  <td>Gray Hair:<a href="///E://Entertainment/Documents/GitHub/HW_PBRT/docs/img/gray_hair.png" target="_blank"><img src="///E://Entertainment/Documents/GitHub/HW_PBRT/docs/img/gray_hair.png" alt="gray_hair" height="250" style="max-width:100%;"></a>
+  <td>Gray Hair:<a href="./img/gray_hair.png" target="_blank"><img src="./img/gray_hair.png" alt="gray_hair" height="250" style="max-width:100%;"></a>
 </td>
 　</tr>
 </table>
 Curly Hair:
 <table width="200" border="0">
 　<tr>
-　<td>White Hair:<a href="///E://Entertainment/Documents/GitHub/HW_PBRT/docs/img/curly_white.png" target="_blank"><img src="///E://Entertainment/Documents/GitHub/HW_PBRT/docs/img/curly_white.png" alt="white_hair" height="250" style="max-width:100%;"></a> </td>
-　<td>Yellow Hair:<a href="///E://Entertainment/Documents/GitHub/HW_PBRT/docs/img/curly_yellow.png" target="_blank"><img src="///E://Entertainment/Documents/GitHub/HW_PBRT/docs/img/curly_yellow.png" alt="yellow_hair" height="250" style="max-width:100%;"></a>
+　<td>White Hair:<a href="./img/curly_white.png" target="_blank"><img src="./img/curly_white.png" alt="white_hair" height="250" style="max-width:100%;"></a> </td>
+　<td>Yellow Hair:<a href="./img/curly_yellow.png" target="_blank"><img src="./img/curly_yellow.png" alt="yellow_hair" height="250" style="max-width:100%;"></a>
 </td>
-  <td>Gray Hair:<a href="///E://Entertainment/Documents/GitHub/HW_PBRT/docs/img/curly_gray.png" target="_blank"><img src="///E://Entertainment/Documents/GitHub/HW_PBRT/docs/img/curly_gray.png" alt="gray_hair" height="250" style="max-width:100%;"></a>
+  <td>Gray Hair:<a href="./img/curly_gray.png" target="_blank"><img src="./img/curly_gray.png" alt="gray_hair" height="250" style="max-width:100%;"></a>
 </td>
 　</tr>
 </table>
